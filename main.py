@@ -126,11 +126,7 @@ while True:
             class text_style(Enum):
                 REGULAR = 1
                 TYPED = 2
-               ## BLINK = 3
-                ENCRYPTED = 3
-                DECRYPTED = 4
-                CACHED = 5
-                BUFFER = 6
+
 
             class Color(Enum):
               BLACK = 30

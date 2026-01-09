@@ -22,29 +22,29 @@ def code_to_bytes(compiled):
 
 
 def build_slot_layout(cls):
-    slots: dict[str, int] = {}
-    for base in reversed(cls.__mro__):
-        for name, member in base.__dict__.items():
-            if callable(member) and not name.startswith("__"):
+    slots: dict[str, int] = {} # creating a map
+    for base in reversed(cls.__mro__): # reversed mro (Method Resolution Order), a class hiearchy  
+        for name, member in base.__dict__.items(): #iterate over memebers of the class
+            if callable(member) and not name.startswith("__"): #looking for anything callable, not direct varabiles like cached_phrases
                 if name not in slots:
-                    slots[name] = len(slots)
-    return MappingProxyType(slots)
+                    slots[name] = len(slots) #cache slots 
+    return MappingProxyType(slots) # makes slot read only
 
 
-def build_vtable(cls, slots):
+def build_vtable(cls, slots): #shadow / somewhat copy vtable, but more bare bones
     table: dict[int, Callable] = {}
     for base in reversed(cls.__mro__):
         for name, member in base.__dict__.items():
             if callable(member) and name in slots:
                 table[slots[name]] = member
-    return MappingProxyType(table)
+    return MappingProxyType(table) #makes vtable read only
 
 
 def build_jump_table(instance, vtable):
-    return MappingProxyType({
+    return MappingProxyType({ ##binds the vtable to the instance
         slot: getattr(instance, func.__name__)
         for slot, func in vtable.items()
-    })
+    }) #makes read only
 
 
 

@@ -72,7 +72,7 @@ while True:
                 frontend().send([str(" ".join(f"0x{b:02x}" for b in byte_values))])
             else:
                 print("please run and dissasemble your code first")
-            frontend().pause()
+            
             
 
         case 3:
@@ -117,7 +117,7 @@ while True:
 
         case 5:
             disassembler.dump_virtual_and_jump_table(frontend)
-            frontend().pause()
+           
            
 
         case 6:
@@ -170,12 +170,12 @@ while True:
             frontend().send(["Please enter each input"]) 
             inputs = (frontend().get_inputs(">>>"))
             disassembler.send_call(frontend,func_str, inputs)   
-            frontend().pause()
+            
            
 
         case 7:
             sys.exit(0)
         case _:
             frontend().send(["\nplease pick a valid option "])
-    
+    frontend().pause()
 
